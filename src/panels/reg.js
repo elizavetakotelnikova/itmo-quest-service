@@ -1,19 +1,21 @@
 import React, { useState } from 'react';
 import { Panel, PanelHeader, Group, FormItem, Input, Checkbox, Button, Div, Avatar } from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
+import PropTypes from 'prop-types';
+import { createUser } from '../api/requests/requests.js'
 
-export const Login = ({ id, onLoginSuccess }) => {
+export const Login = ({ id, onLoginSuccess, fetchedUser }) => {
     const [isuNumber, setIsuNumber] = useState('');
     const [consentGiven, setConsentGiven] = useState(false);
 
     const handleLogin = () => {
         if (consentGiven && isuNumber) {
             onLoginSuccess(isuNumber);
+            createUser(isuNumber, fetchedUser?.first_name, fetchedUser?.last_name, fetchedUser?.id)
         } else {
             alert("Введите номер ИСУ и подтвердите согласие на обработку данных.");
         }
     };
-
     return (
         <Panel id={id}>
             <PanelHeader>Имя приложения</PanelHeader>
@@ -54,3 +56,12 @@ export const Login = ({ id, onLoginSuccess }) => {
         </Panel>
     );
 };
+
+Login.propTypes = {
+    id: PropTypes.string.isRequired,
+    fetchedUser: PropTypes.shape({
+        first_name: PropTypes.string,
+        last_name: PropTypes.string,
+    }),
+};
+
