@@ -1,18 +1,18 @@
 exports.up = (pgm) => {
     pgm.createTable('users', {
-        id: 'id',
+        id: {type: "uuid", notNull: true, primaryKey: true},
         isu: {type: 'integer', notNull: true},
         faculty: { type: 'varchar(256)', notNull: false },
         course: {type: 'integer', notNull: false},
     });
 
     pgm.createTable('clubs', {
-        id: 'id',
+        id: {type: "uuid", notNull: true, primaryKey: true},
         name: { type: 'varchar(256)', notNull: true},
     });
 
     pgm.createTable('events', {
-        id: 'id',
+        id: {type: "uuid", notNull: true, primaryKey: true},
         title: { type: 'varchar(256)', notNull: true},
         description: { type: 'varchar(512)', notNull: false },
         photo_link: { type: 'varchar(256)', notNull: false },
@@ -26,13 +26,13 @@ exports.up = (pgm) => {
 
     pgm.createTable('users_events', {
         user_id: {
-            type: 'integer',
+            type: 'uuid',
             notNull: true,
             references: 'users(id)',
             onDelete: 'cascade',
         },
         event_id: {
-            type: 'integer',
+            type: 'uuid',
             notNull: true,
             references: 'events(id)',
             onDelete: 'cascade',
@@ -41,13 +41,13 @@ exports.up = (pgm) => {
 
     pgm.createTable('users_clubs', {
         user_id: {
-            type: 'integer',
+            type: 'uuid',
             notNull: true,
             references: 'users(id)',
             onDelete: 'cascade',
         },
         club_id: {
-            type: 'integer',
+            type: 'uuid',
             notNull: true,
             references: 'clubs(id)',
             onDelete: 'cascade',
@@ -56,13 +56,13 @@ exports.up = (pgm) => {
 };
 
 exports.down = (pgm) => {
+    pgm.dropTable('users_events');
+
+    pgm.dropTable('users_clubs');
+
     pgm.dropTable('users');
 
     pgm.dropTable('clubs');
 
     pgm.dropTable('events');
-
-    pgm.dropTable('users_events');
-
-    pgm.dropTable('users_clubs');
 };

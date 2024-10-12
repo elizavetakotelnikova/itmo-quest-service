@@ -1,4 +1,4 @@
-class Club {
+class ClubModel {
     constructor(id, name, description, category, type) {
         this.id = id
         this.name = name
