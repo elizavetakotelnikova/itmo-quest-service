@@ -4,7 +4,7 @@ import { Icon28FavoriteOutline } from '@vkontakte/icons';
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router';
 import { getClubs } from '../api/requests/requests.js';
 
-export const MyClubs = ({ id }) => {
+export const MyClubs = ({ id, userId }) => {
     const routeNavigator = useRouteNavigator();
 
     const [clubs, setClubs] = useState([]);
@@ -13,8 +13,10 @@ export const MyClubs = ({ id }) => {
 
     useEffect(() => {
         const fetchClubs = async () => {
+            if (!userId) return;
+
             try {
-                const data = await getClubs();
+                const data = await getClubs(userId);
                 if (Array.isArray(data)) {
                     setClubs(data);
                 } else {
@@ -24,12 +26,12 @@ export const MyClubs = ({ id }) => {
                 console.error('Ошибка при получении клубов:', error);
                 setClubs([]);
             } finally {
-                setLoading(false)
+                setLoading(false);
             }
         };
 
         fetchClubs();
-    }, []);
+    }, [userId]);
 
     const goBack = () => {
         routeNavigator.back();
