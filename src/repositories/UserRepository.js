@@ -29,6 +29,15 @@ class UserRepository {
 
     }
 
+    getAllUsersEvents(user) {
+        const res = this.db.one('SELECT e.id, e.title, e.description, e.photo_link, e.status FROM events AS e INNER JOIN users_events AS u WHERE u.user_id = $1', [user.id])
+            .catch(error => {
+                console.log(error);
+            });
+
+        return res.map(each => new UserModel(each));
+    }
+
     getByIsu(isu) {
         const res = this.db.one('SELECT id, first_name, last_name, isu, faculty, course FROM users WHERE isu = $1', [isu])
     .catch(error => {

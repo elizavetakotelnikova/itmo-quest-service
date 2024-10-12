@@ -1,6 +1,5 @@
-class Event {
-    constructor(id, title, description, photoLink, startTime, status) {
-        this.id = id;
+class EventModel {
+    constructor(title, description, photoLink, startTime, status) {
         this.title = title
         this.description = description
         this.photoLink = photoLink

@@ -1,5 +1,6 @@
 const EventModel = require('../models/EventModel');
 var db = require('../database');
+const UserModel = require("../models/UserModel");
 // const User = require('../entities/User');
 
 class EventRepository {
@@ -29,13 +30,13 @@ class EventRepository {
 
     }
 
-    getEventsByCategory(time) {
-        const res = this.db.one('SELECT * FROM events WHERE start_time = $1', [time])
+    getAllEventUsers(event) {
+        const res = this.db.one('SELECT u.id, u.first_name, u.last_name, u.faculty, u.course, FROM clubs AS s INNER JOIN users_events AS u WHERE u.event_id = $1', [event.id])
             .catch(error => {
                 console.log(error);
             });
 
-        return res.map(each => new EventModel(each));
+        return res.map(each => new UserModel(each));
     }
 
     createEvent(currentEventModel) {
