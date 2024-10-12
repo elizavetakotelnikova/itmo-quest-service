@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import { makeRequest } from '../helpers/makeRequest.js';
 
 export const createUser = (isu, firstName, lastName, vkId) =>
@@ -33,8 +34,9 @@ export const getNotifications = (userId) =>
         userId: userId,
     });
 
-export const getClubs = () =>
+export const getClubs = (userId) =>
     makeRequest('GET', 'API YOUR WORK HERE', {
+        userId: useId,
     });
 
 export const getClubDetails = () =>
