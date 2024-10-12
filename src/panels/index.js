@@ -1,7 +1,9 @@
 export { Home } from './Home';
-export { Menu } from './Menu';
+export { Menu } from './menu';
 export { MyClubs } from './MyClubs';
 export { Achieves } from './Achieves';
 export { CreateClub } from './CreateClub';
 export { About } from './About';
-export { Login } from './reg'; 
+export { Login } from './reg';
+export { ClubDetails } from './ClubDetails';
+export { AddTask } from './AddTask';

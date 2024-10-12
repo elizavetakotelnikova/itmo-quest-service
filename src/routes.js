@@ -17,7 +17,9 @@ export const DEFAULT_VIEW_PANELS = {
   MYCLUBS: 'myclubs',
   ACHIEVES: 'achieves',
   CREATECLUB: 'createclub',
-  ABOUT: 'about'
+  ABOUT: 'about',
+  ADDTASK: 'addtask',
+  CLUBDETAILS: 'clubdetails',
 };
 
 export const routes = RoutesConfig.create([
@@ -29,7 +31,9 @@ export const routes = RoutesConfig.create([
       createPanel(DEFAULT_VIEW_PANELS.MYCLUBS, '/myclubs', []),
       createPanel(DEFAULT_VIEW_PANELS.ACHIEVES, '/achieves', []),
       createPanel(DEFAULT_VIEW_PANELS.CREATECLUB, '/createclub', []),
-      createPanel(DEFAULT_VIEW_PANELS.ABOUT, '/about', [])
+      createPanel(DEFAULT_VIEW_PANELS.ABOUT, '/about', []),
+      createPanel(DEFAULT_VIEW_PANELS.ADDTASK, '/club/:clubId/add-task', []),
+      createPanel(DEFAULT_VIEW_PANELS.CLUBDETAILS, '/club/:clubId', []),
     ]),
   ]),
 ]);
