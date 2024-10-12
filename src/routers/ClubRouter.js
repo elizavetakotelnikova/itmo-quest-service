@@ -4,6 +4,26 @@ const crypto = require("crypto");
 const ClubModel = require('../models/ClubModel')
 const ClubsService = require('../services/ClubService');
 
+router.post("/create", (req, res) => {
+    let club = new ClubModel(crypto.randomUUID(), req.name, req.description, req.category, req.type)
+    try {
+        ClubsService.createClub(club);
+    }
+    catch (e) {
+        return res
+            .status(400)
+            .json({ message: "Bad request" })
+    }
+
+    if (club == null) {
+        return res
+            .status(404)
+            .json({message: "Not found"})
+    }
+
+    res.send(JSON.stringify(club));
+});
+
 router.get("/:clubId", (req, res) => {
     let Club = null
     try {
@@ -21,30 +41,10 @@ router.get("/:clubId", (req, res) => {
             .json({message: "Not found"})
     }
 
-    res.render(JSON.stringify(Club));
+    res.send(JSON.stringify(Club));
 });
 
-router.post("/create", (req, res) => {
-    let club = new ClubModel(crypto.randomUUID(), req.title, req.description, req.category, req.type)
-    try {
-        ClubsService.createClub(club);
-    }
-    catch (e) {
-        return res
-            .status(400)
-            .json({ message: "Bad request" })
-    }
-
-    if (club == null) {
-        return res
-            .status(404)
-            .json({message: "Not found"})
-    }
-
-    res.render(JSON.stringify(club));
-});
-
-router.put("/api/club/", (req, res) => {
+router.put("/", (req, res) => {
     let club = new ClubModel(crypto.randomUUID(), req.title, req.description, req.category, req.type)
     try {
         ClubsService.updateClub(club);
@@ -61,10 +61,10 @@ router.put("/api/club/", (req, res) => {
             .json({message: "Not found"})
     }
 
-    res.render(JSON.stringify(club));
+    res.send(JSON.stringify(club));
 });
 
-router.delete("/api/club/:clubId", (req, res) => {
+router.delete("/:clubId", (req, res) => {
     try {
         ClubsService.deleteClub(req.params.ClubId);
     }

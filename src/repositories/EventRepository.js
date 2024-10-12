@@ -4,12 +4,7 @@ const UserModel = require("../models/UserModel");
 // const User = require('../entities/User');
 
 class EventRepository {
-
-    constructor(db) {
-        this.db = db
-    }
-
-    getAllEvents(db) {
+    getAllEvents() {
         let results = new Set();
 
         results = db.query('SELECT * FROM events')
@@ -21,7 +16,7 @@ class EventRepository {
     }
 
     getEventById(id) {
-        const res = this.db.query('SELECT * FROM events WHERE id = $1', [id])
+        const res = db.query('SELECT * FROM events WHERE id = $1', [id])
             .catch(error => {
                 console.log(error);
             });
@@ -31,7 +26,7 @@ class EventRepository {
     }
 
     getAllEventUsers(event) {
-        const res = this.db.query('SELECT u.id, u.first_name, u.last_name, u.faculty, u.course, FROM clubs AS s INNER JOIN users_events AS u WHERE u.event_id = $1', [event.id])
+        const res = db.query('SELECT u.id, u.first_name, u.last_name, u.faculty, u.course, FROM clubs AS s INNER JOIN users_events AS u WHERE u.event_id = $1', [event.id])
             .catch(error => {
                 console.log(error);
             });
@@ -40,7 +35,7 @@ class EventRepository {
     }
 
     createEvent(currentEventModel) {
-        this.db.query('INSERT INTO events(id, title, description, photo_link, start_time, status) VALUES($1, $2, $3, $4, $5, $6)',
+        db.query('INSERT INTO events(id, title, description, photo_link, start_time, status) VALUES($1, $2, $3, $4, $5, $6)',
             [currentEventModel.id, currentEventModel.title, currentEventModel.description, currentEventModel.photoLink,
                 currentEventModel.startTime, currentEventModel.status])
             .catch(error => {
@@ -49,7 +44,7 @@ class EventRepository {
     }
 
     updateEvent(currentEventModel) {
-        this.db.query('UPDATE events WHERE id = $1 SET title = $2, description = $2, photo_link = $3, start_time = $4 status = $5',
+        db.query('UPDATE events WHERE id = $1 SET title = $2, description = $2, photo_link = $3, start_time = $4 status = $5',
             [currentEventModel.id, currentEventModel.title, currentEventModel.description, currentEventModel.photoLink,
                 currentEventModel.startTime, currentEventModel.status])
             .catch(error => {
@@ -58,7 +53,7 @@ class EventRepository {
     }
 
     deleteEvent(currentEventModel) {
-        this.db.query('DELETE FROM events WHERE id = $1',
+        db.query('DELETE FROM events WHERE id = $1',
             [currentEventModel.id])
             .catch(error => {
                 console.log(error);

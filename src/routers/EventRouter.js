@@ -21,7 +21,7 @@ router.get("/:eventId", (req, res) => {
             .json({message: "Not found"})
     }
 
-    res.render(JSON.stringify(Event));
+    res.send(JSON.stringify(Event));
 });
 
 
@@ -42,7 +42,7 @@ router.get("/:eventId", (req, res) => {
             .json({message: "Not found"})
     }
 
-    res.render(JSON.stringify(Event));
+    res.send(JSON.stringify(Event));
 });
 
 
@@ -63,7 +63,7 @@ router.post("/creation", (req, res) => {
             .json({message: "Not found"})
     }
 
-    res.render(JSON.stringify(event));
+    res.send(JSON.stringify(event));
 });
 
 router.put("/", (req, res) => {
@@ -83,7 +83,7 @@ router.put("/", (req, res) => {
             .json({message: "Not found"})
     }
 
-    res.render(JSON.stringify(event));
+    res.send(JSON.stringify(event));
 });
 
 router.delete("/:eventId", (req, res) => {

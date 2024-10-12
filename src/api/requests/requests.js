@@ -47,9 +47,9 @@ export const postNewTask = (taskTitle, additionalInfo, clubId) =>
         clubId: clubId
     })
 
-export const postNewClubData = (title, category, type, description) =>
+export const postNewClubData = (name, category, type, description) =>
     makeRequest('POST', '/api/club/create', {
-        title: title,
+        name: name,
         category: category,
         type: type,
         description: description

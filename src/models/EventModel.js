@@ -7,3 +7,5 @@ class EventModel {
         this.status = status
     }
 }
+
+module.exports = EventModel

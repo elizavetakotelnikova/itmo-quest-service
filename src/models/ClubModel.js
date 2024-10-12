@@ -7,3 +7,5 @@ class ClubModel {
         this.type = type
     }
 }
+
+module.exports = ClubModel
