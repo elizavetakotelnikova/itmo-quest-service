@@ -24,7 +24,7 @@ router.get("/:clubId", (req, res) => {
     res.render(JSON.stringify(Club));
 });
 
-router.post("/creation", (req, res) => {
+router.post("/create", (req, res) => {
     let club = new ClubModel(crypto.randomUUID(), req.title, req.description, req.category, req.type)
     try {
         ClubsService.createClub(club);

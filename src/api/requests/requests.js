@@ -1,7 +1,7 @@
 import { makeRequest } from '../helpers/makeRequest.js';
 
 export const createUser = (isu, firstName, lastName, vkId) =>
-    makeRequest('POST', '/api/auth/signup', {
+    makeRequest('POST', '/api/user/signup', {
         isu: isu,
         firstName: firstName,
         lastName: lastName,
@@ -9,7 +9,7 @@ export const createUser = (isu, firstName, lastName, vkId) =>
     });
 
 export const createEvent = (clubId, eventName) =>
-    makeRequest('POST', `/api/event/create/event`, {
+    makeRequest('POST', `/api/event/create/`, {
         clubId: clubId,
         eventName: eventName,
     });
@@ -47,11 +47,11 @@ export const postNewTask = (taskTitle, additionalInfo, clubId) =>
         clubId: clubId
     })
 
-export const postNewClubData = (clubName, category, membership, description) =>
-    makeRequest('POST', 'API YOUR WORK HERE', {
-        clubName: clubName,
+export const postNewClubData = (title, category, type, description) =>
+    makeRequest('POST', '/api/club/create', {
+        title: title,
         category: category,
-        membership: membership,
+        type: type,
         description: description
     });
 
