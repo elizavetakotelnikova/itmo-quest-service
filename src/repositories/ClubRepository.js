@@ -1,6 +1,6 @@
 const ClubModel = require('../models/ClubModel');
 var db = require('../database');
-// const Club = require('../entities/Club');
+const UserModel = require('../models/UserModel');
 
 class ClubRepository {
 
@@ -17,6 +17,15 @@ class ClubRepository {
             });
 
         return results.toArray().map(each => new ClubModel(each));
+    }
+
+    getAllClubUsers(club) {
+        const res = this.db.one('SELECT u.id, u.first_name, u.last_name, u.faculty, u.course, FROM clubs AS s INNER JOIN users_clubs AS u WHERE u.club_id = $1', [club.id])
+            .catch(error => {
+                console.log(error);
+            });
+
+        return res.map(each => new UserModel(each));
     }
 
     getClubById(id) {
