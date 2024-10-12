@@ -4,7 +4,7 @@ const crypto = require("crypto");
 const ClubModel = require('../models/ClubModel')
 const ClubsService = require('../services/ClubService');
 
-router.get("/api/club/:clubId", (req, res) => {
+router.get("/:clubId", (req, res) => {
     let Club = null
     try {
         Club = ClubsService.getClubById(req.params.ClubId);
@@ -24,7 +24,7 @@ router.get("/api/club/:clubId", (req, res) => {
     res.render(JSON.stringify(Club));
 });
 
-router.post("/api/club/", (req, res) => {
+router.post("/creation", (req, res) => {
     let club = new ClubModel(crypto.randomUUID(), req.isu, req.firstName, req.lastName, req.course)
     try {
         ClubsService.createClub(club);
