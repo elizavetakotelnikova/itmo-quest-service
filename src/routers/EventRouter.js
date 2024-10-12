@@ -47,7 +47,7 @@ router.get("/:eventId", (req, res) => {
 
 
 router.post("/creation", (req, res) => {
-    let event = new EventModel(crypto.randomUUID(), req.isu, req.firstName, req.lastName, req.course)
+    let event = new EventModel(crypto.randomUUID(), req.title, req.description, req.photoLink, req.startTime, req.status)
     try {
         EventsService.updateEvent(Event);
     }
@@ -67,7 +67,7 @@ router.post("/creation", (req, res) => {
 });
 
 router.put("/", (req, res) => {
-    let event = new EventModel(crypto.randomUUID(), req.isu, req.firstName, req.lastName, req.course)
+    let event = new EventModel(crypto.randomUUID(), req.title, req.description, req.photoLink, req.startTime, req.status)
     try {
         EventsService.updateEvent(Event);
     }
@@ -96,3 +96,5 @@ router.delete("/:eventId", (req, res) => {
             .json({ message: "Internal server error" })
     }
 });
+
+module.exports = router;

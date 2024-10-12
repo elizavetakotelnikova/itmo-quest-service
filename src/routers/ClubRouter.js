@@ -25,7 +25,7 @@ router.get("/:clubId", (req, res) => {
 });
 
 router.post("/creation", (req, res) => {
-    let club = new ClubModel(crypto.randomUUID(), req.isu, req.firstName, req.lastName, req.course)
+    let club = new ClubModel(crypto.randomUUID(), req.title, req.description, req.category, req.type)
     try {
         ClubsService.createClub(club);
     }
@@ -45,7 +45,7 @@ router.post("/creation", (req, res) => {
 });
 
 router.put("/api/club/", (req, res) => {
-    let club = new ClubModel(crypto.randomUUID(), req.isu, req.firstName, req.lastName, req.course)
+    let club = new ClubModel(crypto.randomUUID(), req.title, req.description, req.category, req.type)
     try {
         ClubsService.updateClub(club);
     }
@@ -74,3 +74,5 @@ router.delete("/api/club/:clubId", (req, res) => {
             .json({ message: "Internal server error" })
     }
 });
+
+module.exports = router;
