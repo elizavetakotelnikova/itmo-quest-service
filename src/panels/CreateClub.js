@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Panel, PanelHeader, Group, Div, Button, FormItem, Input, Textarea, CustomSelect } from '@vkontakte/vkui';
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router';
 import { Icon56Users3Outline } from '@vkontakte/icons';
+import { postNewClubData } from '../api/requests/requests.js'
 
 export const CreateClub = ({ id }) => {
     const routeNavigator = useRouteNavigator()
@@ -11,12 +12,8 @@ export const CreateClub = ({ id }) => {
     const [description, setDescription] = useState('');
 
     const handleCreateClub = () => {
-        console.log({
-            clubName,
-            category,
-            membershipType,
-            description,
-        });
+        postNewClubData(clubName, category, membershipType, description)
+        goBack();
     };
 
     const goBack = () => {
@@ -30,7 +27,6 @@ export const CreateClub = ({ id }) => {
         { label: 'Аниме', value: 'anime' },
         { label: 'Игры', value: 'games' },
     ];
-
     return (
         <Panel id={id}>
             <PanelHeader>Создать клуб</PanelHeader>

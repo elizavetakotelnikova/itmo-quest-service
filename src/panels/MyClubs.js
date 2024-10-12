@@ -1,47 +1,71 @@
-import React, { useState } from 'react';
-import { Panel, PanelHeader, Group, Cell, Avatar, Div, Button } from '@vkontakte/vkui';
+import React, { useState, useEffect } from 'react';
+import { Panel, PanelHeader, Group, Cell, Avatar, Div, Button, Spinner } from '@vkontakte/vkui';
 import { Icon28FavoriteOutline } from '@vkontakte/icons';
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router';
+import { getClubs } from '../api/requests/requests.js';
 
 export const MyClubs = ({ id }) => {
-    const routeNavigator = useRouteNavigator()
+    const routeNavigator = useRouteNavigator();
+
+    const [clubs, setClubs] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+
+    useEffect(() => {
+        const fetchClubs = async () => {
+            try {
+                const data = await getClubs();
+                if (Array.isArray(data)) {
+                    setClubs(data);
+                } else {
+                    setClubs([]);
+                }
+            } catch (error) {
+                console.error('Ошибка при получении клубов:', error);
+                setClubs([]);
+            } finally {
+                setLoading(false)
+            }
+        };
+
+        fetchClubs();
+    }, []);
 
     const goBack = () => {
         routeNavigator.back();
+    };
+
+
+    const goToClubDetails = (clubId) => {
+        routeNavigator.push(`/club/${clubId}`);
     };
 
     return (
         <Panel id={id}>
             <PanelHeader>Мои клубы</PanelHeader>
 
-            <Group>
-                <Cell
-                    before={<Avatar size={48} />}
-                    description="Ламповое сообщество любителей японской анимации."
-                    after={<Icon28FavoriteOutline />}
-                    expandable
-                >
-                    Аниме-клуб "Котацу"
-                </Cell>
-
-                <Cell
-                    before={<Avatar size={48} />}
-                    description="Рок-н-ролл, блюз, джаз может быть крут-рок? В нашем клубе можно играть любой жанр."
-                    after={<Icon28FavoriteOutline />}
-                    expandable
-                >
-                    Музыкальный клуб "Живой Звук"
-                </Cell>
-
-                <Cell
-                    before={<Avatar size={48} />}
-                    description="Заскакивай к нам на чашечку чая и каточку в DnD."
-                    after={<Icon28FavoriteOutline />}
-                    expandable
-                >
-                    Клуб любителей настольных игр GEEKMO
-                </Cell>
-            </Group>
+            {loading ? (
+                <Spinner size="large" />
+            ) : (
+                <Group>
+                    {clubs.length > 0 ? (
+                        clubs.map((club) => (
+                            <Cell
+                                key={club.id}
+                                before={<Avatar size={48} src={club.avatarUrl} />}
+                                description={club.description}
+                                after={<Icon28FavoriteOutline />}
+                                expandable
+                                onClick={() => goToClubDetails(club.id)}
+                            >
+                                {club.name}
+                            </Cell>
+                        ))
+                    ) : (
+                        <Div style={{ textAlign: "center" }}>Клубы не найдены</Div>
+                    )}
+                </Group>
+            )}
 
             <Div>
                 <Button size="l" stretched mode="secondary" onClick={goBack}>

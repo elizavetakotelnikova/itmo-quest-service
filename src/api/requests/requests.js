@@ -1,11 +1,11 @@
-import {makeRequest} from '../helpers/makeRequest.js';
+import { makeRequest } from '../helpers/makeRequest.js';
 
-
-export const createUser = (isu, firstName, lastName) =>
-    makeRequest('POST', '/api/user/signup', {
+export const createUser = (isu, first_name, last_name, vk_id) =>
+    makeRequest('POST', '/api/auth/signup', {
         isu: isu,
-        firstName: firstName,
-        lastName: lastName
+        first_name, first_name,
+        last_name, last_name,
+        vk_id: vk_id
     });
 
 
