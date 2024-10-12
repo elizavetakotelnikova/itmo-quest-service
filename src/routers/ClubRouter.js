@@ -4,7 +4,7 @@ const crypto = require("crypto");
 const ClubModel = require('../models/ClubModel')
 const ClubsService = require('../services/ClubService');
 
-router.get("/api/club/:clubId", (req, res) => {
+router.get("/:clubId", (req, res) => {
     let Club = null
     try {
         Club = ClubsService.getClubById(req.params.ClubId);
@@ -24,8 +24,8 @@ router.get("/api/club/:clubId", (req, res) => {
     res.render(JSON.stringify(Club));
 });
 
-router.post("/api/club/", (req, res) => {
-    let club = new ClubModel(crypto.randomUUID(), req.isu, req.firstName, req.lastName, req.course)
+router.post("/creation", (req, res) => {
+    let club = new ClubModel(crypto.randomUUID(), req.title, req.description, req.category, req.type)
     try {
         ClubsService.createClub(club);
     }
@@ -45,7 +45,7 @@ router.post("/api/club/", (req, res) => {
 });
 
 router.put("/api/club/", (req, res) => {
-    let club = new ClubModel(crypto.randomUUID(), req.isu, req.firstName, req.lastName, req.course)
+    let club = new ClubModel(crypto.randomUUID(), req.title, req.description, req.category, req.type)
     try {
         ClubsService.updateClub(club);
     }
@@ -74,3 +74,5 @@ router.delete("/api/club/:clubId", (req, res) => {
             .json({ message: "Internal server error" })
     }
 });
+
+module.exports = router;

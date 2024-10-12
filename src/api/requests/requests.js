@@ -54,3 +54,5 @@ export const postNewClubData = (clubName, category, membership, description) =>
         membership: membership,
         description: description
     });
+
+

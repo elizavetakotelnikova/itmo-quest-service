@@ -9,5 +9,8 @@ app.use(bodyParser.json());
 //app.use(express.json())
 
 app.use("/api/user", require("./routers/UserRouter.js"))
+app.use("/api/club", require("./routers/ClubRouter.js"))
+app.use("/api/events", require("./routers/EventRouter.js"))
+
 app.set('view engine', 'jade');
 app.listen(3000)
