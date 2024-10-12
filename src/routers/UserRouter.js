@@ -4,12 +4,14 @@ const crypto = require("crypto");
 const UserModel = require('../models/UserModel')
 const usersService = require('../services/UserService');
 
-router.post("/api/signup", (req, res) => {
-    let user = new UserModel(crypto.randomUUID(), req.isu, null, null, null)
+router.post("/signup", (req, res) => {
+    let user = new UserModel(crypto.randomUUID(), req.body.isu, req.body.firstName, req.body.lastName, null, null)
+    console.log(req.body)
     try {
         usersService.createUser(user);
     }
     catch (e) {
+        console.log(e.message)
         return res
             .status(400)
             .json({ message: "Bad request" })
@@ -17,13 +19,13 @@ router.post("/api/signup", (req, res) => {
 
     // view?????????? мне же надо только json возвращать
     //res.render("about_view", { title: "About", list: queryResults });
-    res.render(JSON.stringify(user));
+    res.send(JSON.stringify(user));
 });
 
-router.get("/api/user/:userId", (req, res) => {
+router.get("/filter", async (req, res) => {
     let user = null
     try {
-        user = usersService.getUserById(req.params.userId);
+        user = await usersService.getUserByIsu(req.query.isu);
     }
     catch (e) {
         return res
@@ -37,10 +39,50 @@ router.get("/api/user/:userId", (req, res) => {
             .json({message: "Not found"})
     }
 
-    res.render(JSON.stringify(user));
+    res.send(JSON.stringify(user));
 });
 
-router.put("/api/user/", (req, res) => {
+router.get("/:userId", async (req, res) => {
+    let user = null
+    try {
+        user = await usersService.getUserById(req.params.userId);
+    }
+    catch (e) {
+        return res
+            .status(400)
+            .json({ message: "Bad request" })
+    }
+
+    if (user == null) {
+        return res
+            .status(404)
+            .json({message: "Not found"})
+    }
+
+    res.send(JSON.stringify(user));
+});
+
+router.get("/", async (req, res) => {
+    let users = null
+    try {
+        users = await usersService.getAllUsers();
+    }
+    catch (e) {
+        return res
+            .status(400)
+            .json({ message: "Bad request" })
+    }
+
+    if (users == null) {
+        return res
+            .status(404)
+            .json({message: "Not found"})
+    }
+
+    res.send(JSON.stringify(users));
+});
+
+router.put("/", (req, res) => {
     let user = new UserModel(crypto.randomUUID(), req.isu, req.firstName, req.lastName, req.course)
     try {
         usersService.updateUser(user);
@@ -57,16 +99,20 @@ router.put("/api/user/", (req, res) => {
             .json({message: "Not found"})
     }
 
-    res.render(JSON.stringify(user));
+    res.send(JSON.stringify(user));
 });
 
-router.delete("/api/user/:userId", (req, res) => {
+router.delete("/:userId", async (req, res) => {
     try {
-        usersService.deleteUser(req.params.userId);
+        await usersService.deleteUser(req.params.userId);
     }
     catch (e) {
         return res
             .status(500)
             .json({ message: "Internal server error" })
     }
+
+    res.send({})
 });
+
+module.exports = router;

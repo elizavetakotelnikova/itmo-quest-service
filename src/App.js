@@ -34,7 +34,7 @@ export const App = () => {
 
 // вот это надо посмотреть, не шарю
 
-var app = express();
+/*var app = express();
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -56,4 +56,4 @@ app.use(function(err, req, res) {
 
   res.status(err.status || 500);
   res.render('error');
-});
+});*/

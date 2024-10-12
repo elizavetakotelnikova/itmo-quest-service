@@ -4,6 +4,8 @@
   "version": "0.0.0",
   "scripts": {
     "start": "vite",
+    "userRouter": "node ./src/backend.js",
+    "docker": "docker-compose.yml",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
@@ -17,8 +19,13 @@
     "@vkontakte/vk-bridge-react": "^1.0.1",
     "@vkontakte/vk-mini-apps-router": "^1.4.2",
     "@vkontakte/vkui": "^6.0.0",
+    "body-parser": "^1.20.3",
     "config": "^3.3.12",
+    "crypto": "^1.0.1",
+    "express": "^4.21.1",
+    "jade": "^1.11.0",
     "pg": "^8.13.0",
+    "pg-promise": "^11.10.0",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

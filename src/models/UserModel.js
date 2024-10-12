@@ -8,3 +8,5 @@ class UserModel {
         this.course = course
     }
 }
+
+module.exports = UserModel

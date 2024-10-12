@@ -3,52 +3,55 @@ var db = require('../database');
 // const User = require('../entities/User');
 
 class UserRepository {
-
-    constructor(db) {
-        this.db = db
-    }
-
-    getAllUsers(db) {
+    async getAllUsers() {
         let results = new Set();
 
-        results = db.query('SELECT * FROM users')
+        results = await db.query('SELECT * FROM users')
             .catch(error => {
                 console.log(error);
             });
 
-        return results.toArray().map(each => new UserModel(each));
+        return results.rows.map(each => new UserModel(each.id, each.isu, each.first_name, each.last_name,
+            each.faculty, each.course));
     }
 
-    getUserById(id) {
-        const res = this.db.one('SELECT * FROM users WHERE id = $1', [id])
+    async getUserById(id) {
+        const res = await db.query('SELECT * FROM users WHERE id = $1', [id])
+            .catch(error => {
+                console.log(error);
+            });
+
+        if (res == null) return null;
+
+        return res.rows.map(each => new UserModel(each.id, each.isu, each.first_name, each.last_name,
+            each.faculty, each.course))[0];
+
+    }
+
+    async getAllUsersEvents(user) {
+        const res = await db.query('SELECT e.id, e.title, e.description, e.photo_link, e.status FROM events AS e INNER JOIN users_events AS u WHERE u.user_id = $1', [user.id])
             .catch(error => {
                 console.log(error);
             });
 
         return res.map(each => new UserModel(each));
-
     }
 
-    getAllUsersEvents(user) {
-        const res = this.db.one('SELECT e.id, e.title, e.description, e.photo_link, e.status FROM events AS e INNER JOIN users_events AS u WHERE u.user_id = $1', [user.id])
-            .catch(error => {
-                console.log(error);
-            });
-
-        return res.map(each => new UserModel(each));
-    }
-
-    getByIsu(isu) {
-        const res = this.db.one('SELECT id, first_name, last_name, isu, faculty, course FROM users WHERE isu = $1', [isu])
+    async getUserByIsu(isu) {
+        const res = await db.query('SELECT * FROM users WHERE isu = $1', [isu])
     .catch(error => {
             console.log(error);
         });
 
-        return res.map(each => new UserModel(each));
+        if (res == null) return null;
+
+        return res.rows.map(each => new UserModel(each.id, each.isu, each.first_name, each.last_name,
+            each.faculty, each.course))[0];
     }
 
     createUser(currentUserModel) {
-        this.db.one('INSERT INTO users(id, first_name, last_name, isu, faculty, course) VALUES ($1, $2, $3, $4, $5, $6)',
+        console.log("meow")
+        db.query('INSERT INTO users(id, first_name, last_name, isu, faculty, course) VALUES ($1, $2, $3, $4, $5, $6)',
             [currentUserModel.id, currentUserModel.firstName, currentUserModel.lastName, currentUserModel.isu,
             currentUserModel.faculty, currentUserModel.course])
     .catch(error => {
@@ -57,7 +60,7 @@ class UserRepository {
     }
 
     updateUser(currentUserModel) {
-        this.db.one('UPDATE users WHERE id = $1 SET first_name = $2, last_name = $3, isu = $4, faculty = $5, course = $6',
+        db.query('UPDATE users WHERE id = $1 SET first_name = $2, last_name = $3, isu = $4, faculty = $5, course = $6',
             [currentUserModel.id, currentUserModel.firstName, currentUserModel.lastName, currentUserModel.isu,
                 currentUserModel.faculty, currentUserModel.course])
             .catch(error => {
@@ -65,9 +68,9 @@ class UserRepository {
             });
     }
 
-    deleteUser(currentUserModel) {
-        this.db.one('DELETE users WHERE id = $1',
-            [currentUserModel.id])
+    async deleteUser(id) {
+        await db.query('DELETE FROM users WHERE id = $1',
+            [id])
             .catch(error => {
                 console.log(error);
             });

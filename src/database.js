@@ -1,15 +1,15 @@
-const pgp = import('pg-promise')(/* initialization options */);
+const { Client } = require('pg');
 
-const db = {
-    host: 'localhost', // server name or IP address;
-    port: 5760,
-    database: 'itmo-quest-service',
+const dbConfig = {
     user: 'postgres',
-    password: 'postgres'
+    password: 'postgres',
+    host: 'localhost',
+    port: 7560,
+    database: 'itmo-quest-service',
 };
 
-db.connect(function(err) {
-    if (err) throw err;
-});
+const client = new Client(dbConfig);
 
-module.exports = db;
+client.connect()
+
+module.exports = client;

@@ -1,7 +1,7 @@
 exports.up = (pgm) => {
     pgm.createTable('users', {
         id: {type: "uuid", notNull: true, primaryKey: true},
-        isu: {type: 'integer', notNull: true},
+        isu: {type: 'integer', notNull: true, unique: true},
         faculty: { type: 'varchar(256)', notNull: false },
         course: {type: 'integer', notNull: false},
     });

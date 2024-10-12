@@ -1,49 +1,52 @@
 const UserModel = require('../models/UserModel');
-
+const userRepository = require('../repositories/UserRepository');
+const clubRepository = require('../repositories/ClubRepository');
+const error = require("eslint-plugin-react/lib/util/error");
 // const User = require('../entities/User');
 
 class UserService {
-    constructor(userRepository, clubRepository) {
-        this.userRepository = userRepository
-        this.clubRepository = clubRepository
-    }
 
-    getAllUsers() {
+    async getAllUsers() {
         let results = new Set();
-        results = this.userRepository.getAllUsers()
+        results = await userRepository.getAllUsers()
 
-        return results.toArray().map(each => new UserModel(each));
+        console.log(results)
+
+        return results;
     }
 
     getClubsByUser(currentModelUser) {
         let results = new Set();
-        results = this.clubsRepository.getClubsByUserId(currentModelUser.id);
+        results = clubsRepository.getClubsByUserId(currentModelUser.id);
         return results;
 
     }
 
-    getUserById(id) {
-        const res = this.userRepository.getUserById(id);
-
-        return res.map(each => new UserModel(each));
+    async getUserById(id) {
+        const res = await userRepository.getUserById(id);
+        return res;
     }
 
-    getByIsu(isu) {
-        const res = this.userRepository.getUserById(isu);
+    async getUserByIsu(isu) {
+        const res = await userRepository.getUserByIsu(isu);
 
-        return res.map(each => new UserModel(each));
+        return res;
     }
 
     createUser(currentUserModel) {
-        this.userRepository.createUser(currentUserModel);
+        userRepository.createUser(currentUserModel);
     }
 
     updateUser(currentUserModel) {
-        this.userRepository.updateUser(currentUserModel);
+        userRepository.updateUser(currentUserModel);
     }
 
-    deleteUser(currentUserModel) {
-        this.userRepository.deleteUser(currentUserModel.id)
+    async deleteUser(id) {
+        console.log("meow")
+        var user = await userRepository.getUserById(id)
+        if (user == null) return;
+
+        await userRepository.deleteUser(id)
     }
 }
 
