@@ -8,7 +8,7 @@ import { DEFAULT_VIEW_PANELS } from './routes';
 export const App = () => {
   const { panel: activePanel = DEFAULT_VIEW_PANELS.HOME } = useActiveVkuiLocation();
   const [fetchedUser, setUser] = useState();
-  const [popout, setPopout] = useState(<ScreenSpinner size="large" />);
+  const [popout, setPopout] = useState();
   const [isAuthorized, setIsAuthorized] = useState(false);
 
   useEffect(() => {
@@ -33,18 +33,18 @@ export const App = () => {
   };
 
   return (
-    <SplitLayout popout={popout}>
-      <SplitCol>
-        <View activePanel={isAuthorized ? activePanel : 'login'}>
-          <Login id="login" onLoginSuccess={handleLoginSuccess} />
-          <Home id="home" fetchedUser={fetchedUser} />
-          <Menu id="menu" fetchedUser={fetchedUser} />
-          <MyClubs id="myclubs" />
-          <Achieves id="achieves" />
-          <CreateClub id="createclub" />
-          <About id="about" />
-        </View>
-      </SplitCol>
-    </SplitLayout>
+      <SplitLayout popout={popout}>
+        <SplitCol>
+          <View activePanel={isAuthorized ? activePanel : 'login'}>
+            <Login id="login" onLoginSuccess={handleLoginSuccess} />
+            <Home id="home" fetchedUser={fetchedUser} />
+            <Menu id="menu" fetchedUser={fetchedUser} />
+            <MyClubs id="myclubs" />
+            <Achieves id="achieves" />
+            <CreateClub id="createclub" />
+            <About id="about" />
+          </View>
+        </SplitCol>
+      </SplitLayout>
   );
 };
