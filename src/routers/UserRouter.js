@@ -5,8 +5,8 @@ const UserModel = require('../models/UserModel')
 const usersService = require('../services/UserService');
 
 router.post("/signup", (req, res) => {
-    let user = new UserModel(crypto.randomUUID(), req.body.isu, req.body.firstName, req.body.lastName, null, null)
-    console.log(req.body)
+    let user = new UserModel(crypto.randomUUID(), req.body.isu, req.body.firstName, req.body.lastName, null, null, null)
+    console.log("iop")
     try {
         usersService.createUser(user);
     }
@@ -17,8 +17,6 @@ router.post("/signup", (req, res) => {
             .json({ message: "Bad request" })
     }
 
-    // view?????????? мне же надо только json возвращать
-    //res.render("about_view", { title: "About", list: queryResults });
     res.send(JSON.stringify(user));
 });
 
@@ -83,7 +81,7 @@ router.get("/", async (req, res) => {
 });
 
 router.put("/", (req, res) => {
-    let user = new UserModel(crypto.randomUUID(), req.isu, req.firstName, req.lastName, req.course)
+    let user = new UserModel(crypto.randomUUID(), req.isu, req.firstName, req.lastName, req.course, req.vkId)
     try {
         usersService.updateUser(user);
     }
