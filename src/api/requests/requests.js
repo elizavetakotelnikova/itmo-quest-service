@@ -33,12 +33,12 @@ export const getNotifications = (userId) =>
         userId: userId,
     });
 
-export const getClubs = () =>
-    makeRequest('GET', 'API YOUR WORK HERE', {
+export const getClubs = (userId) =>
+    makeRequest('GET', '/api/club/filter/:userId', {
     });
 
-export const getClubDetails = () =>
-    makeRequest('GET', 'API YOUR WORK HERE')
+export const getClubDetails = (clubId) =>
+    makeRequest('GET', '/api/club/:clubId')
 
 export const postNewTask = (taskTitle, additionalInfo, clubId) =>
     makeRequest('POST', 'API YOUR WORK HERE', {

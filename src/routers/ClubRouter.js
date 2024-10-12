@@ -24,6 +24,27 @@ router.post("/create", (req, res) => {
     res.send(JSON.stringify(club));
 });
 
+router.get("/filter/:userId", (req, res) => {
+    let Club = null
+    try {
+        Club = ClubsService.getAllClubUsers(req.params.userId);
+    }
+    catch (e) {
+        return res
+            .status(400)
+            .json({ message: "Bad request" })
+    }
+
+    if (Club == null) {
+        return res
+            .status(404)
+            .json({message: "Not found"})
+    }
+
+    res.send(JSON.stringify(Club));
+});
+
+
 router.get("/:clubId", (req, res) => {
     let Club = null
     try {
@@ -44,7 +65,7 @@ router.get("/:clubId", (req, res) => {
     res.send(JSON.stringify(Club));
 });
 
-router.put("/", (req, res) => {
+router.put("/:clubId", (req, res) => {
     let club = new ClubModel(crypto.randomUUID(), req.title, req.description, req.category, req.type)
     try {
         ClubsService.updateClub(club);

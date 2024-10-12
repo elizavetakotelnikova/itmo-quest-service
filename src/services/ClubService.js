@@ -12,9 +12,8 @@ class ClubService {
 
     getAllClubUsers(currentModelClub) {
         let results = new Set();
-        results = clubsRepository.getAllClubUsers(currentModelClub.id);
+        results = clubRepository.getAllClubUsers(currentModelClub.id);
         return results;
-
     }
 
     getClubById(id) {
