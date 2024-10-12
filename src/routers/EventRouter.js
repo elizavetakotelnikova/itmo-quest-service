@@ -4,7 +4,7 @@ const crypto = require("crypto");
 const EventModel = require('../models/EventModel')
 const EventsService = require('../services/EventService');
 
-router.get("/api/event/:eventId", (req, res) => {
+router.get("/:eventId", (req, res) => {
     let Event = null
     try {
         Event = EventsService.getEventById(req.params.EventId);
@@ -24,8 +24,30 @@ router.get("/api/event/:eventId", (req, res) => {
     res.render(JSON.stringify(Event));
 });
 
-router.post("/api/event/", (req, res) => {
-    let event = new EventModel(crypto.randomUUID(), req.isu, req.firstName, req.lastName, req.course)
+
+router.get("/:eventId", (req, res) => {
+    let Event = null
+    try {
+        Event = EventsService.getAllEventUsers(req.params.EventId);
+    }
+    catch (e) {
+        return res
+            .status(400)
+            .json({ message: "Bad request" })
+    }
+
+    if (Event == null) {
+        return res
+            .status(404)
+            .json({message: "Not found"})
+    }
+
+    res.render(JSON.stringify(Event));
+});
+
+
+router.post("/creation", (req, res) => {
+    let event = new EventModel(crypto.randomUUID(), req.title, req.description, req.photoLink, req.startTime, req.status)
     try {
         EventsService.updateEvent(Event);
     }
@@ -44,8 +66,8 @@ router.post("/api/event/", (req, res) => {
     res.render(JSON.stringify(event));
 });
 
-router.put("/api/event/", (req, res) => {
-    let event = new EventModel(crypto.randomUUID(), req.isu, req.firstName, req.lastName, req.course)
+router.put("/", (req, res) => {
+    let event = new EventModel(crypto.randomUUID(), req.title, req.description, req.photoLink, req.startTime, req.status)
     try {
         EventsService.updateEvent(Event);
     }
@@ -64,7 +86,7 @@ router.put("/api/event/", (req, res) => {
     res.render(JSON.stringify(event));
 });
 
-router.delete("/api/event/:eventId", (req, res) => {
+router.delete("/:eventId", (req, res) => {
     try {
         EventsService.deleteEvent(req.params.EventId);
     }
@@ -74,3 +96,5 @@ router.delete("/api/event/:eventId", (req, res) => {
             .json({ message: "Internal server error" })
     }
 });
+
+module.exports = router;

@@ -12,7 +12,7 @@ class UserRepository {
             });
 
         return results.rows.map(each => new UserModel(each.id, each.isu, each.first_name, each.last_name,
-            each.faculty, each.course));
+            each.faculty, each.course, each.vk_id));
     }
 
     async getUserById(id) {
@@ -24,7 +24,7 @@ class UserRepository {
         if (res == null) return null;
 
         return res.rows.map(each => new UserModel(each.id, each.isu, each.first_name, each.last_name,
-            each.faculty, each.course))[0];
+            each.faculty, each.course, each.vk_id))[0];
 
     }
 
@@ -34,7 +34,8 @@ class UserRepository {
                 console.log(error);
             });
 
-        return res.map(each => new UserModel(each));
+        return res.rows.map(each => new UserModel(each.id, each.isu, each.first_name, each.last_name,
+            each.faculty, each.course, each.vk_id));
     }
 
     async getUserByIsu(isu) {
@@ -46,14 +47,14 @@ class UserRepository {
         if (res == null) return null;
 
         return res.rows.map(each => new UserModel(each.id, each.isu, each.first_name, each.last_name,
-            each.faculty, each.course))[0];
+            each.faculty, each.course, each.vk_id))[0];
     }
 
     createUser(currentUserModel) {
         console.log("meow")
         db.query('INSERT INTO users(id, first_name, last_name, isu, faculty, course) VALUES ($1, $2, $3, $4, $5, $6)',
             [currentUserModel.id, currentUserModel.firstName, currentUserModel.lastName, currentUserModel.isu,
-            currentUserModel.faculty, currentUserModel.course])
+            currentUserModel.faculty, currentUserModel.course, currentUserModel.vkId])
     .catch(error => {
             console.log(error);
         });
@@ -62,7 +63,7 @@ class UserRepository {
     updateUser(currentUserModel) {
         db.query('UPDATE users WHERE id = $1 SET first_name = $2, last_name = $3, isu = $4, faculty = $5, course = $6',
             [currentUserModel.id, currentUserModel.firstName, currentUserModel.lastName, currentUserModel.isu,
-                currentUserModel.faculty, currentUserModel.course])
+                currentUserModel.faculty, currentUserModel.course, currentUserModel.vkId])
             .catch(error => {
                 console.log(error);
             });

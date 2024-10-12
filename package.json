@@ -2,7 +2,6 @@
   "name": "itmo-quest-service",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
     "start": "vite",
     "userRouter": "node ./src/backend.js",
@@ -11,6 +10,7 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "tunnel": "vk-tunnel --http-protocol=http --host=localhost --port=5173",
+    "tunnelServer": "vk-tunnel --http-protocol=http --host=localhost --port=3000",
     "deploy": "vite build && vk-miniapps-deploy",
     "migrate": "node-pg-migrate"
   },
