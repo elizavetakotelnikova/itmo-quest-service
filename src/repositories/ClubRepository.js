@@ -4,24 +4,26 @@ const UserModel = require('../models/UserModel');
 
 class ClubRepository {
 
-    getAllClubs() {
+    async getAllClubs() {
         let results = new Set();
 
-        results = db.query('SELECT * FROM clubs')
+        results = await db.query('SELECT * FROM clubs')
             .catch(error => {
                 console.log(error);
             });
 
-        return results.toArray().map(each => new ClubModel(each));
+        console.log(results)
+
+        return results.rows.map(each => new ClubModel(each.id, each.name, each.description, each.category, each.type));
     }
 
-    getAllClubUsers(club) {
-        const res = db.query('SELECT u.id, u.first_name, u.last_name, u.faculty, u.course, FROM clubs AS s INNER JOIN users_clubs AS u WHERE u.club_id = $1', [club.id])
+    async getAllClubUsers(club) {
+        const res = await db.query('SELECT u.id, u.first_name, u.last_name, u.faculty, u.course, FROM clubs AS s INNER JOIN users_clubs AS u WHERE u.club_id = $1', [club.id])
             .catch(error => {
                 console.log(error);
             });
 
-        return res.map(each => new UserModel(each));
+        return res.rows.map(each => new ClubModel(each.id, each.name, each.description, each.category, each.type))
     }
 
     getClubById(id) {
@@ -30,7 +32,7 @@ class ClubRepository {
                 console.log(error);
             });
 
-        return res.map(each => new ClubModel(each));
+        return res.rows.map(each => new ClubModel(each.id, each.name, each.description, each.category, each.type))[0]
 
     }
 
@@ -40,7 +42,7 @@ class ClubRepository {
                 console.log(error);
             });
 
-        return res.map(each => new ClubModel(each));
+        return res.rows.map(each => new ClubModel(each.id, each.name, each.description, each.category, each.type))
     }
 
     getClubsByUserId(id) {
@@ -49,7 +51,7 @@ class ClubRepository {
                 console.log(error);
             });
 
-        return res.map(each => new ClubModel(each));
+        return res.rows.map(each => new ClubModel(each.id, each.name, each.description, each.category, each.type))
     }
 
     createClub(currentClubModel) {
