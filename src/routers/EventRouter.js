@@ -5,7 +5,7 @@ const EventModel = require('../models/EventModel')
 const EventsService = require('../services/EventService');
 
 router.post("/create", (req, res) => {
-    let event = new EventModel(crypto.randomUUID(), req.title, req.description, req.photoLink, req.startTime, req.status)
+    let event = new EventModel(crypto.randomUUID(), req.body.title, req.body.description, req.body.photoLink, req.body.startTime, req.body.status)
     try {
         EventsService.updateEvent(Event);
     }
@@ -66,7 +66,7 @@ router.get("/filter/:eventId", (req, res) => {
 });
 
 router.put("/:eventId", (req, res) => {
-    let event = new EventModel(crypto.randomUUID(), req.title, req.description, req.photoLink, req.startTime, req.status)
+    let event = new EventModel(crypto.randomUUID(), req.body.title, req.body.description, req.body.photoLink, req.body.startTime, req.body.status)
     try {
         EventsService.updateEvent(Event);
     }

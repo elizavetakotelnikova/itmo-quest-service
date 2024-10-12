@@ -12,7 +12,8 @@ class EventRepository {
                 console.log(error);
             });
 
-        return results.toArray().map(each => new EventModel(each));
+        return results.rows.map(each => new EventModel(each.id, each.title,
+            each.description, each.photo_link, each.start_time, each.status));
     }
 
     getEventById(id) {
@@ -21,7 +22,8 @@ class EventRepository {
                 console.log(error);
             });
 
-        return res.map(each => new EventModel(each));
+        return results.rows.map(each => new EventModel(each.id, each.title,
+            each.description, each.photo_link, each.start_time, each.status))[0];
 
     }
 
@@ -31,7 +33,8 @@ class EventRepository {
                 console.log(error);
             });
 
-        return res.map(each => new UserModel(each));
+        return results.rows.map(each => new EventModel(each.id, each.title,
+            each.description, each.photo_link, each.start_time, each.status));
     }
 
     createEvent(currentEventModel) {

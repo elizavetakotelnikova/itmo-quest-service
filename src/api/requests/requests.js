@@ -40,7 +40,9 @@ export const getClubs = (userId) =>
     });
 
 export const getClubDetails = (clubId) =>
-    makeRequest('GET', '/api/club/:clubId')
+    makeRequest('GET', '/api/club/:clubId', {
+    clubId: clubId,
+});
 
 export const postNewTask = (taskTitle, additionalInfo, clubId) =>
     makeRequest('POST', 'API YOUR WORK HERE', {
