@@ -8,16 +8,17 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
+
 app.use(cors({
     origin: '*', // Разрешить запросы с любого домена
     methods: 'GET,POST,PUT,DELETE,OPTIONS', // Разрешить любые методы
-    allowedHeaders: 'Content-Type,Authorization', // Разрешить заголовки Content-Type и Authorization
+    allowedHeaders: '*', // Разрешить заголовки Content-Type и Authorization
 }));
 
 
 app.use("/api/user", require("./routers/UserRouter.js"))
 app.use("/api/club", require("./routers/ClubRouter.js"))
-app.use("/api/events", require("./routers/EventRouter.js"))
+app.use("/api/event", require("./routers/EventRouter.js"))
 
 app.set('view engine', 'jade');
 app.listen(3000)

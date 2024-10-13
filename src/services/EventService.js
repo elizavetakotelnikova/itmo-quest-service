@@ -4,32 +4,31 @@ const eventRepository = require('../repositories/EventRepository');
 // const Event = require('../entities/Event');
 
 class EventService {
-    getAllEvents() {
+    async getAllEvents() {
         let results = new Set();
-        results = eventRepository.getAllEvents()
+        results = await eventRepository.getAllEvents()
 
-        return results.toArray().map(each => new EventModel(each));
+        return results;
     }
 
     getAllEventUsers(currentModelEvent) {
         let results = new Set();
-        results = eventsRepository.getAllEventUsers(currentModelEvent.id);
+        results = eventRepository.getAllEventUsers(currentModelEvent.id);
         return results;
 
     }
 
-    getEventById(id) {
-        const res = eventRepository.getEventById(id);
-
-        return res.map(each => new EventModel(each));
+    async getEventById(id) {
+        return await eventRepository.getEventById(id);
     }
 
     createEvent(currentEventModel) {
+        console.log("jit")
         eventRepository.createEvent(currentEventModel);
     }
 
-    addUserToEvent(userId, eventId) {
-        eventRepository.addUserToEvent(userId, eventId)
+    async addUserToEvent(userId, eventId) {
+        await eventRepository.addUserToEvent(userId, eventId)
     }
 
     updateEvent(currentEventModel) {
