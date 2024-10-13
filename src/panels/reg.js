@@ -8,10 +8,11 @@ export const Login = ({ id, onLoginSuccess, fetchedUser }) => {
     const [isuNumber, setIsuNumber] = useState('');
     const [consentGiven, setConsentGiven] = useState(false);
 
-    const handleLogin = () => {
+    const handleLogin = async () => {
         if (consentGiven && isuNumber) {
             try {
-                const newUser = createUser(isuNumber, fetchedUser?.first_name, fetchedUser?.last_name, fetchedUser?.id);
+                console.log(isuNumber, fetchedUser?.first_name, fetchedUser?.last_name, fetchedUser?.id)
+                const newUser = await createUser(isuNumber, fetchedUser?.first_name, fetchedUser?.last_name, fetchedUser?.id);
                 onLoginSuccess(isuNumber, newUser.id);
             } catch (error) {
                 console.error('Ошибка при создании пользователя:', error);
