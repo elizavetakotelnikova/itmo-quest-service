@@ -52,7 +52,7 @@ class UserRepository {
 
     createUser(currentUserModel) {
         console.log("meow")
-        db.query('INSERT INTO users(id, first_name, last_name, isu, faculty, course) VALUES ($1, $2, $3, $4, $5, $6)',
+        db.query('INSERT INTO users(id, first_name, last_name, isu, faculty, course, vk_id) VALUES ($1, $2, $3, $4, $5, $6, $7)',
             [currentUserModel.id, currentUserModel.firstName, currentUserModel.lastName, currentUserModel.isu,
             currentUserModel.faculty, currentUserModel.course, currentUserModel.vkId])
     .catch(error => {

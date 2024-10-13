@@ -5,7 +5,7 @@ const UserModel = require('../models/UserModel')
 const usersService = require('../services/UserService');
 
 router.post("/signup", (req, res) => {
-    let user = new UserModel(crypto.randomUUID(), req.body.isu, req.body.firstName, req.body.lastName, null, null, null)
+    let user = new UserModel(crypto.randomUUID(), req.body.isu, req.body.firstName, req.body.lastName, null, null, req.body.vkId)
     console.log("iop")
     try {
         usersService.createUser(user);
