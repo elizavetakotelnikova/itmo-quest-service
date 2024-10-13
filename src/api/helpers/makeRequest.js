@@ -3,7 +3,7 @@ import axios from 'axios';
 //вынести в env переменную
 
 export const instance = axios.create({
-    baseURL: 'https://user230084945-jo6rdvup.wormhole.vk-apps.com/',
+    baseURL: 'https://user230084945-wvb4r7lk.wormhole.vk-apps.com/',
     headers: {
         'Content-Type': 'application/json',
         mode: 'no-cors',
