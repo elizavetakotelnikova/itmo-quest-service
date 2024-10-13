@@ -26,6 +26,11 @@ class ClubService {
         clubRepository.createClub(currentClubModel);
     }
 
+    subscribeUserToClub(userId, clubId) {
+        clubRepository.subscribeUserToClub(userId, clubId);
+    }
+
+
     updateClub(currentClubModel) {
         clubRepository.updateClub(currentClubModel);
     }

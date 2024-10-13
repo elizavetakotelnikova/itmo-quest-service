@@ -24,6 +24,25 @@ router.post("/create", (req, res) => {
     res.send(JSON.stringify(event));
 });
 
+router.post("/subscribe", (req, res) => {
+    try {
+        EventsService.addUserToEvent(req.query.userId, req.query.eventId);
+    }
+    catch (e) {
+        return res
+            .status(400)
+            .json({ message: "Bad request" })
+    }
+
+    if (event == null) {
+        return res
+            .status(404)
+            .json({message: "Not found"})
+    }
+
+    res.send(JSON.stringify("success"));
+});
+
 router.get("/:eventId", (req, res) => {
     let Event = null
     try {

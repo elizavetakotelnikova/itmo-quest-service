@@ -4,7 +4,7 @@ const dbConfig = {
     user: 'postgres',
     password: 'postgres',
     host: 'localhost',
-    port: 7561,
+    port: 7560,
     database: 'itmo-quest-service',
 };
 

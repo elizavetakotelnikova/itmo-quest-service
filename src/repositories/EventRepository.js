@@ -46,6 +46,14 @@ class EventRepository {
             });
     }
 
+    addUserToEvent(userId, eventId) {
+        db.query('INSERT INTO users_events(user_id, event_id) VALUES($1, $2)',
+            [userId, eventId])
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
     updateEvent(currentEventModel) {
         db.query('UPDATE events WHERE id = $1 SET title = $2, description = $2, photo_link = $3, start_time = $4 status = $5',
             [currentEventModel.id, currentEventModel.title, currentEventModel.description, currentEventModel.photoLink,

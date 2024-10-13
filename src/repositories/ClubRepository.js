@@ -69,6 +69,14 @@ class ClubRepository {
             });
     }
 
+    subscribeUserToClub(userId, clubId) {
+        db.query('INSERT INTO users_clubs(user_id, club_id) VALUES($1, $2)',
+            [userId, clubId])
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
     updateClub(currentClubModel) {
         db.query('UPDATE clubs WHERE id = $1 SET name = $2, description = $2, category = $3, type = $4',
             [currentClubModel.id, currentClubModel.name, currentClubModel.description, currentClubModel.category,

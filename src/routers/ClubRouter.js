@@ -107,6 +107,20 @@ router.put("/:clubId", (req, res) => {
     res.send(JSON.stringify(club));
 });
 
+router.post("/subscribe", (req, res) => {
+    try {
+        ClubsService.subscribeToSlub(req.query.userId, req.query.clubId);
+    }
+    catch (e) {
+        return res
+            .status(500)
+            .json({ message: "Internal server error" })
+    }
+
+    res.send(JSON.stringify("success"))
+});
+
+
 router.delete("/:clubId", (req, res) => {
     try {
         ClubsService.deleteClub(req.params.ClubId);
