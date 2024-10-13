@@ -8,7 +8,7 @@ export const Login = ({ id, onLoginSuccess, fetchedUser }) => {
     const [isuNumber, setIsuNumber] = useState('');
     const [consentGiven, setConsentGiven] = useState(false);
 
-    const handleLogin = async () => {
+    const handleLogin = () => {
         if (consentGiven && isuNumber) {
             try {
                 const newUser = createUser(isuNumber, fetchedUser?.first_name, fetchedUser?.last_name, fetchedUser?.id);

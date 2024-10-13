@@ -40,6 +40,26 @@ router.get("/filter", async (req, res) => {
     res.send(JSON.stringify(user));
 });
 
+router.get("/getAll", async (req, res) => {
+    let users = null
+    try {
+        users = await usersService.getAllUsers();
+    }
+    catch (e) {
+        return res
+            .status(400)
+            .json({ message: "Bad request" })
+    }
+
+    if (users == null) {
+        return res
+            .status(404)
+            .json({message: "Not found"})
+    }
+
+    res.send(JSON.stringify(users));
+});
+
 router.get("/:userId", async (req, res) => {
     let user = null
     try {
@@ -58,26 +78,6 @@ router.get("/:userId", async (req, res) => {
     }
 
     res.send(JSON.stringify(user));
-});
-
-router.get("/creation", async (req, res) => {
-    let users = null
-    try {
-        users = await usersService.getAllUsers();
-    }
-    catch (e) {
-        return res
-            .status(400)
-            .json({ message: "Bad request" })
-    }
-
-    if (users == null) {
-        return res
-            .status(404)
-            .json({message: "Not found"})
-    }
-
-    res.send(JSON.stringify(users));
 });
 
 router.put("/", (req, res) => {

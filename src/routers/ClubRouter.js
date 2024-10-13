@@ -5,7 +5,8 @@ const ClubModel = require('../models/ClubModel')
 const ClubsService = require('../services/ClubService');
 
 router.post("/create", (req, res) => {
-    let club = new ClubModel(crypto.randomUUID(), req.name, req.description, req.category, req.type)
+    let club = new ClubModel(crypto.randomUUID(), req.body.name, req.body.description, req.body.category, req.body.type, req.body.creator)
+    console.log(club)
     try {
         ClubsService.createClub(club);
     }
@@ -24,10 +25,10 @@ router.post("/create", (req, res) => {
     res.send(JSON.stringify(club));
 });
 
-router.get("/filter/:userId", (req, res) => {
+router.get("/filter/:userId", async (req, res) => {
     let Club = null
     try {
-        Club = ClubsService.getAllClubUsers(req.params.userId);
+        Club = await ClubsService.getAllClubUsers(req.params.userId);
     }
     catch (e) {
         return res
@@ -65,8 +66,29 @@ router.get("/:clubId", (req, res) => {
     res.send(JSON.stringify(Club));
 });
 
+router.get("/", async (req, res) => {
+    let Club = null
+    try {
+        Club = await ClubsService.getAllClubs();
+    }
+    catch (e) {
+        return res
+            .status(400)
+            .json({ message: "Bad request" })
+    }
+
+    if (Club == null) {
+        return res
+            .status(404)
+            .json({message: "Not found"})
+    }
+
+    res.send(JSON.stringify(Club));
+});
+
+
 router.put("/:clubId", (req, res) => {
-    let club = new ClubModel(crypto.randomUUID(), req.title, req.description, req.category, req.type)
+    let club = new ClubModel(crypto.randomUUID(), req.body.name, req.body.description, req.body.category, req.body.type, req.body.creator)
     try {
         ClubsService.updateClub(club);
     }
@@ -84,6 +106,20 @@ router.put("/:clubId", (req, res) => {
 
     res.send(JSON.stringify(club));
 });
+
+router.post("/subscribe", (req, res) => {
+    try {
+        ClubsService.subscribeToSlub(req.query.userId, req.query.clubId);
+    }
+    catch (e) {
+        return res
+            .status(500)
+            .json({ message: "Internal server error" })
+    }
+
+    res.send(JSON.stringify("success"))
+});
+
 
 router.delete("/:clubId", (req, res) => {
     try {

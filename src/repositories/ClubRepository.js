@@ -4,24 +4,26 @@ const UserModel = require('../models/UserModel');
 
 class ClubRepository {
 
-    getAllClubs() {
+    async getAllClubs() {
         let results = new Set();
 
-        results = db.query('SELECT * FROM clubs')
+        results = await db.query('SELECT * FROM clubs')
             .catch(error => {
                 console.log(error);
             });
 
-        return results.toArray().map(each => new ClubModel(each));
+        console.log(results)
+
+        return results.rows.map(each => new ClubModel(each.id, each.name, each.description, each.category, each.type, each.creator));
     }
 
-    getAllClubUsers(club) {
-        const res = db.query('SELECT u.id, u.first_name, u.last_name, u.faculty, u.course, FROM clubs AS s INNER JOIN users_clubs AS u WHERE u.club_id = $1', [club.id])
+    async getAllClubUsers(club) {
+        const res = await db.query('SELECT u.id, u.first_name, u.last_name, u.faculty, u.course, FROM clubs AS s INNER JOIN users_clubs AS u WHERE u.club_id = $1', [club.id])
             .catch(error => {
                 console.log(error);
             });
 
-        return res.map(each => new UserModel(each));
+        return res.rows.map(each => new ClubModel(each.id, each.name, each.description, each.category, each.type, each.creator))
     }
 
     getClubById(id) {
@@ -30,7 +32,7 @@ class ClubRepository {
                 console.log(error);
             });
 
-        return res.map(each => new ClubModel(each));
+        return res.rows.map(each => new ClubModel(each.id, each.name, each.description, each.category, each.type, each.creator))[0]
 
     }
 
@@ -40,7 +42,7 @@ class ClubRepository {
                 console.log(error);
             });
 
-        return res.map(each => new ClubModel(each));
+        return res.rows.map(each => new ClubModel(each.id, each.name, each.description, each.category, each.type,each.creator))
     }
 
     getClubsByUserId(id) {
@@ -49,13 +51,27 @@ class ClubRepository {
                 console.log(error);
             });
 
-        return res.map(each => new ClubModel(each));
+        return res.rows.map(each => new ClubModel(each.id, each.name, each.description, each.category, each.type, each.creator))
     }
 
     createClub(currentClubModel) {
-        db.query('INSERT INTO clubs(id, name, description, category, type) VALUES($1, $2, $3, $4, $5)',
+        db.query('INSERT INTO clubs(id, name, description, category, type, creator) VALUES($1, $2, $3, $4, $5, $6)',
             [currentClubModel.id, currentClubModel.name, currentClubModel.description, currentClubModel.category,
-                currentClubModel.type])
+                currentClubModel.type, currentClubModel.creator])
+            .catch(error => {
+                console.log(error);
+            });
+
+        db.query('INSERT INTO users_clubs(user_id, club_id) VALUES($1, $2)',
+            [currentClubModel.creator, currentClubModel.id])
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
+    subscribeUserToClub(userId, clubId) {
+        db.query('INSERT INTO users_clubs(user_id, club_id) VALUES($1, $2)',
+            [userId, clubId])
             .catch(error => {
                 console.log(error);
             });
@@ -64,7 +80,7 @@ class ClubRepository {
     updateClub(currentClubModel) {
         db.query('UPDATE clubs WHERE id = $1 SET name = $2, description = $2, category = $3, type = $4',
             [currentClubModel.id, currentClubModel.name, currentClubModel.description, currentClubModel.category,
-                currentClubModel.type])
+                currentClubModel.type, currentClubModel.creator])
             .catch(error => {
                 console.log(error);
             });

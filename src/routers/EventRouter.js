@@ -5,7 +5,7 @@ const EventModel = require('../models/EventModel')
 const EventsService = require('../services/EventService');
 
 router.post("/create", (req, res) => {
-    let event = new EventModel(crypto.randomUUID(), req.title, req.description, req.photoLink, req.startTime, req.status)
+    let event = new EventModel(crypto.randomUUID(), req.body.title, req.body.description, req.body.photoLink, req.body.startTime, req.body.status)
     try {
         EventsService.updateEvent(Event);
     }
@@ -22,6 +22,25 @@ router.post("/create", (req, res) => {
     }
 
     res.send(JSON.stringify(event));
+});
+
+router.post("/subscribe", (req, res) => {
+    try {
+        EventsService.addUserToEvent(req.query.userId, req.query.eventId);
+    }
+    catch (e) {
+        return res
+            .status(400)
+            .json({ message: "Bad request" })
+    }
+
+    if (event == null) {
+        return res
+            .status(404)
+            .json({message: "Not found"})
+    }
+
+    res.send(JSON.stringify("success"));
 });
 
 router.get("/:eventId", (req, res) => {
@@ -66,7 +85,7 @@ router.get("/filter/:eventId", (req, res) => {
 });
 
 router.put("/:eventId", (req, res) => {
-    let event = new EventModel(crypto.randomUUID(), req.title, req.description, req.photoLink, req.startTime, req.status)
+    let event = new EventModel(crypto.randomUUID(), req.body.title, req.body.description, req.body.photoLink, req.body.startTime, req.body.status)
     try {
         EventsService.updateEvent(Event);
     }

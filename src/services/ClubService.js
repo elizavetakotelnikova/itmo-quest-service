@@ -3,28 +3,33 @@ const clubRepository = require('../repositories/ClubRepository');
 // const Club = require('../entities/Club');
 
 class ClubService {
-    getAllClubs() {
+    async getAllClubs() {
         let results = new Set();
-        results = clubRepository.getAllClubs()
+        results = await clubRepository.getAllClubs()
 
-        return results.toArray().map(each => new ClubModel(each));
+        return results;
     }
 
-    getAllClubUsers(currentModelClub) {
+    async getAllClubUsers(currentModelClub) {
         let results = new Set();
-        results = clubRepository.getAllClubUsers(currentModelClub.id);
+        results = await clubRepository.getAllClubUsers(currentModelClub.id);
         return results;
     }
 
     getClubById(id) {
         const res = clubRepository.getClubById(id);
 
-        return res.map(each => new ClubModel(each));
+        return res;
     }
 
     createClub(currentClubModel) {
         clubRepository.createClub(currentClubModel);
     }
+
+    subscribeUserToClub(userId, clubId) {
+        clubRepository.subscribeUserToClub(userId, clubId);
+    }
+
 
     updateClub(currentClubModel) {
         clubRepository.updateClub(currentClubModel);

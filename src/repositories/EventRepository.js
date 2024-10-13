@@ -12,7 +12,8 @@ class EventRepository {
                 console.log(error);
             });
 
-        return results.toArray().map(each => new EventModel(each));
+        return results.rows.map(each => new EventModel(each.id, each.title,
+            each.description, each.photo_link, each.start_time, each.status));
     }
 
     getEventById(id) {
@@ -21,7 +22,8 @@ class EventRepository {
                 console.log(error);
             });
 
-        return res.map(each => new EventModel(each));
+        return results.rows.map(each => new EventModel(each.id, each.title,
+            each.description, each.photo_link, each.start_time, each.status))[0];
 
     }
 
@@ -31,13 +33,22 @@ class EventRepository {
                 console.log(error);
             });
 
-        return res.map(each => new UserModel(each));
+        return results.rows.map(each => new EventModel(each.id, each.title,
+            each.description, each.photo_link, each.start_time, each.status));
     }
 
     createEvent(currentEventModel) {
         db.query('INSERT INTO events(id, title, description, photo_link, start_time, status) VALUES($1, $2, $3, $4, $5, $6)',
             [currentEventModel.id, currentEventModel.title, currentEventModel.description, currentEventModel.photoLink,
                 currentEventModel.startTime, currentEventModel.status])
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
+    addUserToEvent(userId, eventId) {
+        db.query('INSERT INTO users_events(user_id, event_id) VALUES($1, $2)',
+            [userId, eventId])
             .catch(error => {
                 console.log(error);
             });

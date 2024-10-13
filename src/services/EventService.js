@@ -28,6 +28,10 @@ class EventService {
         eventRepository.createEvent(currentEventModel);
     }
 
+    addUserToEvent(userId, eventId) {
+        eventRepository.addUserToEvent(userId, eventId)
+    }
+
     updateEvent(currentEventModel) {
         eventRepository.updateEvent(currentEventModel);
     }
