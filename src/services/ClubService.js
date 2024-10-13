@@ -10,17 +10,25 @@ class ClubService {
         return results;
     }
 
-    async getAllClubUsers(currentModelClub) {
+    async getAllClubUsers(userId) {
         let results = new Set();
-        results = await clubRepository.getAllClubUsers(currentModelClub.id);
+        results = await clubRepository.getAllClubUsers(userId);
+        console.log(results)
         return results;
     }
 
-    getClubById(id) {
-        const res = clubRepository.getClubById(id);
+    async getClubById(id) {
+        const res = await clubRepository.getClubById(id);
 
         return res;
     }
+
+    async getClubsByUserId(id) {
+        const res = await clubRepository.getClubsByUserId(id);
+
+        return res;
+    }
+
 
     createClub(currentClubModel) {
         clubRepository.createClub(currentClubModel);

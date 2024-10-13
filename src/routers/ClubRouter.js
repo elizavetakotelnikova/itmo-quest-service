@@ -5,8 +5,8 @@ const ClubModel = require('../models/ClubModel')
 const ClubsService = require('../services/ClubService');
 
 router.post("/create", (req, res) => {
+    console.log(req.body)
     let club = new ClubModel(crypto.randomUUID(), req.body.name, req.body.description, req.body.category, req.body.type, req.body.creator)
-    console.log(club)
     try {
         ClubsService.createClub(club);
     }
@@ -28,7 +28,7 @@ router.post("/create", (req, res) => {
 router.get("/filter/:userId", async (req, res) => {
     let Club = null
     try {
-        Club = await ClubsService.getAllClubUsers(req.params.userId);
+        Club = await ClubsService.getClubsByUserId(req.params.userId);
     }
     catch (e) {
         return res
@@ -45,28 +45,7 @@ router.get("/filter/:userId", async (req, res) => {
     res.send(JSON.stringify(Club));
 });
 
-
-router.get("/:clubId", (req, res) => {
-    let Club = null
-    try {
-        Club = ClubsService.getClubById(req.params.ClubId);
-    }
-    catch (e) {
-        return res
-            .status(400)
-            .json({ message: "Bad request" })
-    }
-
-    if (Club == null) {
-        return res
-            .status(404)
-            .json({message: "Not found"})
-    }
-
-    res.send(JSON.stringify(Club));
-});
-
-router.get("/", async (req, res) => {
+router.get("/getAll", async (req, res) => {
     let Club = null
     try {
         Club = await ClubsService.getAllClubs();
@@ -86,6 +65,26 @@ router.get("/", async (req, res) => {
     res.send(JSON.stringify(Club));
 });
 
+
+router.get("/:clubId", async (req, res) => {
+    let Club = null
+    try {
+        Club = await ClubsService.getClubById(req.params.clubId);
+    }
+    catch (e) {
+        return res
+            .status(400)
+            .json({ message: "Bad request" })
+    }
+
+    if (Club == null) {
+        return res
+            .status(404)
+            .json({message: "Not found"})
+    }
+
+    res.send(JSON.stringify(Club));
+});
 
 router.put("/:clubId", (req, res) => {
     let club = new ClubModel(crypto.randomUUID(), req.body.name, req.body.description, req.body.category, req.body.type, req.body.creator)

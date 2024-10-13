@@ -4,10 +4,10 @@ const UserModel = require("../models/UserModel");
 // const User = require('../entities/User');
 
 class EventRepository {
-    getAllEvents() {
+    async getAllEvents() {
         let results = new Set();
 
-        results = db.query('SELECT * FROM events')
+        results = await db.query('SELECT * FROM events')
             .catch(error => {
                 console.log(error);
             });
@@ -16,24 +16,23 @@ class EventRepository {
             each.description, each.photo_link, each.start_time, each.status));
     }
 
-    getEventById(id) {
-        const res = db.query('SELECT * FROM events WHERE id = $1', [id])
+    async getEventById(id) {
+        const res = await db.query('SELECT * FROM events WHERE id = $1', [id])
             .catch(error => {
                 console.log(error);
             });
-
-        return results.rows.map(each => new EventModel(each.id, each.title,
+        return res.rows.map(each => new EventModel(each.id, each.title,
             each.description, each.photo_link, each.start_time, each.status))[0];
 
     }
 
-    getAllEventUsers(event) {
-        const res = db.query('SELECT u.id, u.first_name, u.last_name, u.faculty, u.course, FROM clubs AS s INNER JOIN users_events AS u WHERE u.event_id = $1', [event.id])
+    async getAllEventUsers(event) {
+        const res = await db.query('SELECT u.id, u.first_name, u.last_name, u.faculty, u.course, FROM clubs AS s INNER JOIN users_events AS u WHERE u.event_id = $1', [event.id])
             .catch(error => {
                 console.log(error);
             });
 
-        return results.rows.map(each => new EventModel(each.id, each.title,
+        return res.rows.map(each => new EventModel(each.id, each.title,
             each.description, each.photo_link, each.start_time, each.status));
     }
 
@@ -46,8 +45,8 @@ class EventRepository {
             });
     }
 
-    addUserToEvent(userId, eventId) {
-        db.query('INSERT INTO users_events(user_id, event_id) VALUES($1, $2)',
+    async addUserToEvent(userId, eventId) {
+        await db.query('INSERT INTO users_events(user_id, event_id) VALUES($1, $2)',
             [userId, eventId])
             .catch(error => {
                 console.log(error);

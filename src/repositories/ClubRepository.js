@@ -12,13 +12,11 @@ class ClubRepository {
                 console.log(error);
             });
 
-        console.log(results)
-
         return results.rows.map(each => new ClubModel(each.id, each.name, each.description, each.category, each.type, each.creator));
     }
 
     async getAllClubUsers(club) {
-        const res = await db.query('SELECT u.id, u.first_name, u.last_name, u.faculty, u.course, FROM clubs AS s INNER JOIN users_clubs AS u WHERE u.club_id = $1', [club.id])
+        const res = await db.query('SELECT u.id, u.first_name, u.last_name, u.faculty, u.course FROM users AS u INNER JOIN users_clubs AS s ON s.user_id = u.id WHERE u.club_id = $1', [club.id])
             .catch(error => {
                 console.log(error);
             });
@@ -26,8 +24,8 @@ class ClubRepository {
         return res.rows.map(each => new ClubModel(each.id, each.name, each.description, each.category, each.type, each.creator))
     }
 
-    getClubById(id) {
-        const res = db.query('SELECT id, name, description, category, type, course FROM clubs WHERE id = $1', [id])
+    async getClubById(id) {
+        const res = await db.query('SELECT id, name, description, category, type, creator_id FROM clubs WHERE id = $1', [id])
             .catch(error => {
                 console.log(error);
             });
@@ -45,8 +43,8 @@ class ClubRepository {
         return res.rows.map(each => new ClubModel(each.id, each.name, each.description, each.category, each.type,each.creator))
     }
 
-    getClubsByUserId(id) {
-        const res = db.query('SELECT c.id, c.name, c.description, c.category, c.type FROM clubs AS s INNER JOIN users_clubs AS u WHERE u.user_id = $1', [id])
+    async getClubsByUserId(id) {
+        const res = await db.query('SELECT c.id, c.name, c.description, c.category, c.type, c.creator_id FROM clubs AS c INNER JOIN users_clubs AS u ON c.id = u.club_id WHERE u.user_id = $1', [id])
             .catch(error => {
                 console.log(error);
             });
@@ -55,7 +53,7 @@ class ClubRepository {
     }
 
     createClub(currentClubModel) {
-        db.query('INSERT INTO clubs(id, name, description, category, type, creator) VALUES($1, $2, $3, $4, $5, $6)',
+        db.query('INSERT INTO clubs(id, name, description, category, type, creator_id) VALUES($1, $2, $3, $4, $5, $6)',
             [currentClubModel.id, currentClubModel.name, currentClubModel.description, currentClubModel.category,
                 currentClubModel.type, currentClubModel.creator])
             .catch(error => {

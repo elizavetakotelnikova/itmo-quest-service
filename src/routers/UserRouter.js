@@ -6,8 +6,6 @@ const usersService = require('../services/UserService');
 
 router.post("/signup", (req, res) => {
     let user = new UserModel(crypto.randomUUID(), req.body.isu, req.body.firstName, req.body.lastName, null, null, req.body.vkId)
-    console.log(user.id, user.isu, user.firstName, user.lastName)
-    console.log("juggi")
     try {
         usersService.createUser(user);
     }
