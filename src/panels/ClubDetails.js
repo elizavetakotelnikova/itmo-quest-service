@@ -1,12 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { Panel, PanelHeader, Group, Cell, Avatar, Div, Button, Text, Separator } from '@vkontakte/vkui';
-import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router';
+import { Panel, PanelHeader, Group, Cell, Avatar, Div, Button, Text, Separator, PanelHeaderBack } from '@vkontakte/vkui';
+import { useRouteNavigator, useParams } from '@vkontakte/vk-mini-apps-router';
 import { getClubDetails } from '../api/requests/requests.js';
 
-export const ClubDetails = ({ id, clubId }) => {
+export const ClubDetails = ({ id }) => {
     const routeNavigator = useRouteNavigator();
     const [club, setClub] = useState(null);
+    /**
+     * {
+    "id": "9564b25d-81a2-46a4-a21c-d2abaa4ac6cf",
+    "name": "KOKOOKOKOOKO",
+    "description": "SOIDFJDKLFNSD",
+    "category": "sports",
+    "type": "closed"
+}
+     */
     const [loading, setLoading] = useState(true);
+    const { clubId = "unknown" } = useParams();
 
     useEffect(() => {
         const fetchClubDetails = async () => {
@@ -41,7 +51,7 @@ export const ClubDetails = ({ id, clubId }) => {
 
     return (
         <Panel id={id}>
-            <PanelHeader onClick={goBack}>Страница клуба</PanelHeader>
+            <PanelHeader before={<PanelHeaderBack onClick={goBack} />}>Страница клуба</PanelHeader>
 
             <Group>
                 {/* Название и описание клуба */}
@@ -59,7 +69,7 @@ export const ClubDetails = ({ id, clubId }) => {
                 <Separator />
 
                 {/* Событие клуба */}
-                <Div style={{ padding: '16px' }}>
+                {club.event !== undefined && (<Div style={{ padding: '16px' }}>
                     <Cell
                         description={club.event.description}
                     >
@@ -68,7 +78,7 @@ export const ClubDetails = ({ id, clubId }) => {
                     <Text weight="regular" style={{ marginTop: '4px', color: '#818C99' }}>
                         {club.event.date}, {club.event.address}
                     </Text>
-                </Div>
+                </Div>)}
 
                 <Separator />
 

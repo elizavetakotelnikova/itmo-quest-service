@@ -11,8 +11,8 @@ export const Login = ({ id, onLoginSuccess, fetchedUser }) => {
     const handleLogin = async () => {
         if (consentGiven && isuNumber) {
             try {
-                console.log(isuNumber, fetchedUser?.first_name, fetchedUser?.last_name, fetchedUser?.id)
                 const newUser = await createUser(isuNumber, fetchedUser?.first_name, fetchedUser?.last_name, fetchedUser?.id);
+                console.log(newUser);
                 onLoginSuccess(isuNumber, newUser.id);
             } catch (error) {
                 console.error('Ошибка при создании пользователя:', error);

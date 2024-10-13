@@ -7,3 +7,4 @@ export { About } from './About';
 export { Login } from './reg';
 export { ClubDetails } from './ClubDetails';
 export { AddTask } from './AddTask';
+export { TaskCard } from './Task';

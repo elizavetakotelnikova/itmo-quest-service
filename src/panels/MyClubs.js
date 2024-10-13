@@ -5,6 +5,8 @@ import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router';
 import { getClubs } from '../api/requests/requests.js';
 
 export const MyClubs = ({ id, userId }) => {
+    console.log(userId);
+
     const routeNavigator = useRouteNavigator();
 
     const [clubs, setClubs] = useState([]);
@@ -13,10 +15,14 @@ export const MyClubs = ({ id, userId }) => {
 
     useEffect(() => {
         const fetchClubs = async () => {
+            console.log(1);
+
             if (!userId) return;
+            console.log(2);
 
             try {
-                const data = await getClubs(userId);
+                const data = await getClubs();
+                console.log(data)
                 if (Array.isArray(data)) {
                     setClubs(data);
                 } else {

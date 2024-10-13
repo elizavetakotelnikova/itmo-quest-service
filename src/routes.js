@@ -20,6 +20,7 @@ export const DEFAULT_VIEW_PANELS = {
   ABOUT: 'about',
   ADDTASK: 'addtask',
   CLUBDETAILS: 'clubdetails',
+  TASK: 'task',
 };
 
 export const routes = RoutesConfig.create([
@@ -34,6 +35,7 @@ export const routes = RoutesConfig.create([
       createPanel(DEFAULT_VIEW_PANELS.ABOUT, '/about', []),
       createPanel(DEFAULT_VIEW_PANELS.ADDTASK, '/club/:clubId/add-task', []),
       createPanel(DEFAULT_VIEW_PANELS.CLUBDETAILS, '/club/:clubId', []),
+      createPanel(DEFAULT_VIEW_PANELS.TASK, '/task', []),
     ]),
   ]),
 ]);

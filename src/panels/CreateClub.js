@@ -4,7 +4,7 @@ import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router';
 import { Icon56Users3Outline } from '@vkontakte/icons';
 import { postNewClubData } from '../api/requests/requests.js'
 
-export const CreateClub = ({ id }) => {
+export const CreateClub = ({ id, userId }) => {
     const routeNavigator = useRouteNavigator()
     const [clubName, setClubName] = useState('');
     const [category, setCategory] = useState('');
@@ -12,7 +12,8 @@ export const CreateClub = ({ id }) => {
     const [description, setDescription] = useState('');
 
     const handleCreateClub = () => {
-        postNewClubData(clubName, category, membershipType, description)
+        console.log(clubName, category, membershipType, description, userId)
+        postNewClubData(clubName, category, membershipType, description, userId)
         goBack();
     };
 

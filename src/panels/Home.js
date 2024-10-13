@@ -16,8 +16,8 @@ export const Home = ({ id, fetchedUser }) => {
 
     };
 
-    const temp123 = async ()=>{
-        const fetchedDish =  createUser(122233);
+    const temp123 = async () => {
+        const fetchedDish = createUser(122233);
 
     }
 
@@ -42,15 +42,18 @@ export const Home = ({ id, fetchedUser }) => {
 
                         <Group header={<Header mode="primary">Активные задания</Header>}>
                             <Cell
+                                onClick={() => {
+                                    routeNavigator.push('/task');
+                                }}
                                 after={(
                                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                                        <Subhead weight="regular" style={{ marginRight: 10, color: '#999', fontSize: '12px' }}>Аниме-клуб "Котацу"</Subhead>
-                                        <Subhead weight="regular" style={{ marginRight: 10, fontSize: '12px' }}>Кронверкский пр-кт, д. 49, Ауд. 228</Subhead>
-                                        <Icon28DoneOutline />
+                                        <Subhead weight="regular" style={{ marginRight: 10, color: '#999', fontSize: '12px' }}>Музыкальный клуб "Живой Звук"</Subhead>
+                                        <Subhead weight="regular" style={{ marginRight: 10, fontSize: '12px' }}>ул. Ломоносова, д. 49, Ауд. 1415</Subhead>
+                                        <Icon28ChevronRightCircleOutline />
                                     </div>
                                 )}
                             >
-                                <Text weight="medium" style={{ fontSize: '15px' }}>Посмотреть вместе с нами 100 серий Наруто.</Text>
+                                Посмотреть 100 аниме.
                             </Cell>
 
                             <Cell

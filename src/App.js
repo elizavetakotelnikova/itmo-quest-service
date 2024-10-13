@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import bridge from '@vkontakte/vk-bridge';
 import { View, SplitLayout, SplitCol, ScreenSpinner } from '@vkontakte/vkui';
 import { useActiveVkuiLocation } from '@vkontakte/vk-mini-apps-router';
-import { Home, Menu, MyClubs, Achieves, CreateClub, About, Login, ClubDetails, AddTask } from './panels';
+import { Home, Menu, MyClubs, Achieves, CreateClub, About, Login, ClubDetails, AddTask, TaskCard } from './panels';
 import { DEFAULT_VIEW_PANELS } from './routes';
 
 export const App = () => {
@@ -28,11 +28,16 @@ export const App = () => {
   }, []);
 
   const handleLoginSuccess = (isuNumber, newUserId) => {
+    console.log('newUserId', newUserId);
+
     localStorage.setItem('isuNumber', isuNumber);
     localStorage.setItem('consentGiven', 'true');
     setIsAuthorized(true);
     setUserId(newUserId);
   };
+
+  console.log(userId);
+
 
   return (
     <SplitLayout popout={popout}>
@@ -43,10 +48,11 @@ export const App = () => {
           <Menu id="menu" fetchedUser={fetchedUser} />
           <MyClubs id="myclubs" userId={userId} />
           <Achieves id="achieves" />
-          <CreateClub id="createclub" />
+          <CreateClub id="createclub" userId={userId} />
           <About id="about" />
           <ClubDetails id="clubdetails" />
           <AddTask id="addtask" />
+          <TaskCard id="task" />
         </View>
       </SplitCol>
     </SplitLayout>

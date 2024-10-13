@@ -33,15 +33,14 @@ export const getNotifications = (userId) =>
         userId: userId,
     });
 
-export const getClubs = (userId) =>
-    makeRequest('GET', '/api/club/:userId', {
-        userId: userId,
-    });
+export const getClubs = () => {
+    return makeRequest('GET', '/api/club/getAll');
+}
 
 export const getClubDetails = (clubId) =>
-    makeRequest('GET', '/api/club/:clubId', {
-    clubId: clubId,
-});
+    makeRequest('GET', `/api/club/${clubId}`, {
+        clubId: clubId,
+    });
 
 export const postNewTask = (taskTitle, additionalInfo, clubId) =>
     makeRequest('POST', 'API YOUR WORK HERE', {
@@ -50,12 +49,13 @@ export const postNewTask = (taskTitle, additionalInfo, clubId) =>
         clubId: clubId
     })
 
-export const postNewClubData = (name, category, type, description) =>
+export const postNewClubData = (name, category, type, description, creator) =>
     makeRequest('POST', '/api/club/create', {
         name: name,
         category: category,
         type: type,
-        description: description
+        description: description,
+        creator: creator,
     });
 
 
