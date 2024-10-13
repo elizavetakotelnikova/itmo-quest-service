@@ -10,7 +10,6 @@ export const App = () => {
   const [fetchedUser, setUser] = useState();
   const [popout, setPopout] = useState();
   const [isAuthorized, setIsAuthorized] = useState(false);
-  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -31,7 +30,6 @@ export const App = () => {
     localStorage.setItem('isuNumber', isuNumber);
     localStorage.setItem('consentGiven', 'true');
     setIsAuthorized(true);
-    setUserId(userId);
   };
 
   return (
@@ -41,7 +39,7 @@ export const App = () => {
           <Login id="login" onLoginSuccess={handleLoginSuccess} fetchedUser={fetchedUser} />
           <Home id="home" fetchedUser={fetchedUser} />
           <Menu id="menu" fetchedUser={fetchedUser} />
-          <MyClubs id="myclubs" userId={userId} />
+          <MyClubs id="myclubs" />
           <Achieves id="achieves" />
           <CreateClub id="createclub" />
           <About id="about" />

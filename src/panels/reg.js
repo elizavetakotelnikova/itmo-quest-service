@@ -8,15 +8,10 @@ export const Login = ({ id, onLoginSuccess, fetchedUser }) => {
     const [isuNumber, setIsuNumber] = useState('');
     const [consentGiven, setConsentGiven] = useState(false);
 
-    const handleLogin = async () => {
+    const handleLogin = () => {
         if (consentGiven && isuNumber) {
-            try {
-                const newUser = await createUser(isuNumber, fetchedUser?.first_name, fetchedUser?.last_name, fetchedUser?.id);
-
-                onLoginSuccess(isuNumber, newUser.id);
-            } catch (error) {
-                console.error('Ошибка при создании пользователя:', error);
-            }
+            onLoginSuccess(isuNumber);
+            createUser(isuNumber, fetchedUser?.first_name, fetchedUser?.last_name, fetchedUser?.id)
         } else {
             alert("Введите номер ИСУ и подтвердите согласие на обработку данных.");
         }
