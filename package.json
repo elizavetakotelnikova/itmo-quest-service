@@ -10,7 +10,7 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "tunnel": "vk-tunnel --http-protocol=http --host=localhost --port=5173",
-    "tunnelServer": "vk-tunnel --http-protocol=http --host=localhost --port=3000",
+    "tunnelServer": "vk-tunnel --http-protocol=https --host=localhost --port=3000",
     "deploy": "vite build && vk-miniapps-deploy",
     "migrate": "node-pg-migrate"
   },
@@ -23,6 +23,7 @@
     "axios": "^1.7.7",
     "body-parser": "^1.20.3",
     "config": "^3.3.12",
+    "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "express": "^4.21.1",
     "jade": "^1.11.0",
