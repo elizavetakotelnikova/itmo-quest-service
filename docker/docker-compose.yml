@@ -1,7 +1,7 @@
 version: '2'
 services:
   postgres:
-    container_name: itmo-quest-service
+    container_name: itmo-quest-service2
     image: postgres:latest
     environment:
       - POSTGRES_USER=postgres

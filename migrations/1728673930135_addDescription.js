@@ -1,6 +1,6 @@
 exports.up = (pgm) => {
     pgm.addColumns('clubs', {
-        description : { type: 'text', notNull: false},
+       description : { type: 'text', notNull: false},
     });
 };
 

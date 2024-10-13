@@ -10,7 +10,7 @@ exports.up = (pgm) => {
 };
 
 exports.down = (pgm) => {
-    pgm.dropColumns('users', {
+    pgm.dropColumns('clubs', {
         creator_id: {
             type: 'uuid',
             notNull: true,
