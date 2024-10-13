@@ -5,7 +5,7 @@ const ClubModel = require('../models/ClubModel')
 const ClubsService = require('../services/ClubService');
 
 router.post("/create", (req, res) => {
-    let club = new ClubModel(crypto.randomUUID(), req.body.name, req.body.description, req.body.category, req.body.type)
+    let club = new ClubModel(crypto.randomUUID(), req.body.name, req.body.description, req.body.category, req.body.type, req.body.creator)
     console.log(club)
     try {
         ClubsService.createClub(club);
@@ -88,7 +88,7 @@ router.get("/", async (req, res) => {
 
 
 router.put("/:clubId", (req, res) => {
-    let club = new ClubModel(crypto.randomUUID(), req.body.name, req.body.description, req.body.category, req.body.type)
+    let club = new ClubModel(crypto.randomUUID(), req.body.name, req.body.description, req.body.category, req.body.type, req.body.creator)
     try {
         ClubsService.updateClub(club);
     }

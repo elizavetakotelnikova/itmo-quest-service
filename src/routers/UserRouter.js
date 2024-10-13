@@ -60,7 +60,7 @@ router.get("/:userId", async (req, res) => {
     res.send(JSON.stringify(user));
 });
 
-router.get("/creation", async (req, res) => {
+router.get("/", async (req, res) => {
     let users = null
     try {
         users = await usersService.getAllUsers();

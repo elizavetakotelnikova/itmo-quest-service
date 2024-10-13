@@ -14,7 +14,7 @@ class ClubRepository {
 
         console.log(results)
 
-        return results.rows.map(each => new ClubModel(each.id, each.name, each.description, each.category, each.type));
+        return results.rows.map(each => new ClubModel(each.id, each.name, each.description, each.category, each.type, each.creator));
     }
 
     async getAllClubUsers(club) {
@@ -23,7 +23,7 @@ class ClubRepository {
                 console.log(error);
             });
 
-        return res.rows.map(each => new ClubModel(each.id, each.name, each.description, each.category, each.type))
+        return res.rows.map(each => new ClubModel(each.id, each.name, each.description, each.category, each.type, each.creator))
     }
 
     getClubById(id) {
@@ -32,7 +32,7 @@ class ClubRepository {
                 console.log(error);
             });
 
-        return res.rows.map(each => new ClubModel(each.id, each.name, each.description, each.category, each.type))[0]
+        return res.rows.map(each => new ClubModel(each.id, each.name, each.description, each.category, each.type, each.creator))[0]
 
     }
 
@@ -42,7 +42,7 @@ class ClubRepository {
                 console.log(error);
             });
 
-        return res.rows.map(each => new ClubModel(each.id, each.name, each.description, each.category, each.type))
+        return res.rows.map(each => new ClubModel(each.id, each.name, each.description, each.category, each.type,each.creator))
     }
 
     getClubsByUserId(id) {
@@ -51,13 +51,19 @@ class ClubRepository {
                 console.log(error);
             });
 
-        return res.rows.map(each => new ClubModel(each.id, each.name, each.description, each.category, each.type))
+        return res.rows.map(each => new ClubModel(each.id, each.name, each.description, each.category, each.type, each.creator))
     }
 
     createClub(currentClubModel) {
-        db.query('INSERT INTO clubs(id, name, description, category, type) VALUES($1, $2, $3, $4, $5)',
+        db.query('INSERT INTO clubs(id, name, description, category, type, creator) VALUES($1, $2, $3, $4, $5, $6)',
             [currentClubModel.id, currentClubModel.name, currentClubModel.description, currentClubModel.category,
-                currentClubModel.type])
+                currentClubModel.type, currentClubModel.creator])
+            .catch(error => {
+                console.log(error);
+            });
+
+        db.query('INSERT INTO users_clubs(user_id, club_id) VALUES($1, $2)',
+            [currentClubModel.creator, currentClubModel.id])
             .catch(error => {
                 console.log(error);
             });
@@ -66,7 +72,7 @@ class ClubRepository {
     updateClub(currentClubModel) {
         db.query('UPDATE clubs WHERE id = $1 SET name = $2, description = $2, category = $3, type = $4',
             [currentClubModel.id, currentClubModel.name, currentClubModel.description, currentClubModel.category,
-                currentClubModel.type])
+                currentClubModel.type, currentClubModel.creator])
             .catch(error => {
                 console.log(error);
             });
