@@ -6,7 +6,6 @@ export const instance = axios.create({
     baseURL: 'https://user230084945-7esegkot.wormhole.vk-apps.com/',
     headers: {
         'Content-Type': 'application/json',
-        mode: 'no-cors',
         Authorization: `VK ${btoa(window.location.search)}`,
     },
 });

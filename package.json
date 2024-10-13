@@ -10,7 +10,7 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "tunnel": "vk-tunnel --http-protocol=http --host=localhost --port=5173",
-    "tunnelServer": "vk-tunnel --http-protocol=https --host=localhost --port=3000",
+    "tunnelServer": "vk-tunnel --http-protocol=http --host=localhost --port=3000",
     "deploy": "vite build && vk-miniapps-deploy",
     "migrate": "node-pg-migrate"
   },
